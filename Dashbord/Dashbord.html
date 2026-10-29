@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignBridge - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="Dashbord.css" />
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="../index.html" class="brand">
+            <img src="../assets/logo.png" alt="SignBridge" />
+            <span>SignBridge</span>
+        </a>
+        <nav class="nav-links">
+            <a href="../index.html">Beranda</a>
+            <a href="../Pembelajaran/Pembelajaran.html">Learn</a>
+            <a href="#">SignFriends</a>
+            <a href="Dashbord.html">Dashboard</a>
+            <a href="#" class="avatar"><img src="../assets/avatar.png" alt="Profil" /></a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="dash">
+
+            <!-- Sapaan -->
+            <div class="greeting">
+                <div class="avatar big"><img src="../assets/avatar.png" alt="Profil" /></div>
+                <h1>HALO <span id="userName">DAVID</span>!</h1>
+            </div>
+
+            <div class="grid">
+
+                <!-- Progres belajar -->
+                <section class="card outline progress-card">
+                    <h2>Progres Belajar</h2>
+                    <div class="donut">
+                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                            <circle class="track" cx="60" cy="60" r="48" />
+                            <circle class="fill" id="ring" cx="60" cy="60" r="48" />
+                        </svg>
+                        <span class="donut-text"><span id="percent">0</span>%</span>
+                    </div>
+                    <p class="total">Dari total <span id="totalModul">10</span> modul</p>
+                    <img src="../assets/dashboard/tangan.png" alt="Tangan" class="hand-icon" />
+                </section>
+
+                <!-- Lanjutkan pelajaran -->
+                <section class="card continue-card">
+                    <h2>Lanjutkan Pelajaran</h2>
+                    <div class="continue-img">
+                        <img src="../assets/dashboard/lanjut.png" alt="Materi berikutnya" />
+                    </div>
+                    <a href="../Pembelajaran/Pembelajaran.html" class="btn-start" id="startBtn">
+                        Mulai Bab <span id="babNo">3</span> &rsaquo;
+                    </a>
+                </section>
+
+                <!-- Achievement + Streak -->
+                <div class="right-col">
+                    <section class="card outline achievement-card">
+                        <img src="../assets/dashboard/medal.png" alt="Award" />
+                        <div>
+                            <h3>Achievement</h3>
+                            <p id="achievementText">Menyelesaikan 3 Modul tanpa kesalahan.</p>
+                        </div>
+                    </section>
+
+                    <section class="card outline streak-card">
+                        <img src="../assets/dashboard/api.png" alt="Streak" />
+                        <p><span id="streak">3</span> Days Streak</p>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="Dashbord.js"></script>
+</body>
+</html>

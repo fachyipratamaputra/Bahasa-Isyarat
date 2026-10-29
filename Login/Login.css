@@ -1,0 +1,93 @@
+:root {
+    --purple: #C27FD3;
+    --purple-dark: #A06BC0;
+    --text: #3A3A3A;
+    --line: #9DB04A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #F7F8FC; color: var(--text); }
+a { text-decoration: none; }
+img { max-width: 100%; display: block; }
+button, input { font-family: inherit; }
+
+/* Halaman */
+.page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+/* Kartu besar dengan sudut membulat */
+.login-card {
+    width: 100%; max-width: 1020px; min-height: 640px;
+    background: linear-gradient(180deg, #E4FF6C 0%, #CEDF7B 100%);
+    border-radius: 110px;
+    display: grid; grid-template-columns: 1fr 2px 1fr;
+    padding: 70px 40px 56px;
+    box-shadow: 0 10px 40px rgba(120, 140, 30, .25);
+}
+.divider { background: var(--line); opacity: .8; }
+
+/* ---------- Kiri ---------- */
+.left { display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 0 30px; }
+.logo-wrap { flex: 1; display: flex; align-items: center; justify-content: center; }
+.logo-wrap img { width: 260px; height: auto; }
+
+/* ---------- Kanan ---------- */
+.right { display: flex; flex-direction: column; align-items: center; padding: 0 30px; }
+.right h1 { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 2.1rem; color: var(--purple); }
+.signup { font-family: 'Poppins', sans-serif; font-size: .95rem; margin: 8px 0 14px; }
+.signup a { color: var(--purple); margin-left: 4px; }
+.signup a:hover { text-decoration: underline; }
+
+.social { display: flex; gap: 24px; margin-bottom: 18px; }
+.social-btn { width: 68px; height: 42px; border: none; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: .2s; }
+.social-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,.12); }
+
+form { width: 100%; max-width: 346px; flex: 1; display: flex; flex-direction: column; }
+
+/* Kolom isian */
+.field { display: block; background: #fff; border-radius: 26px; padding: 12px 30px 14px; margin-bottom: 12px; cursor: text; border: 2px solid transparent; transition: .2s; }
+.field:focus-within { border-color: var(--purple); }
+.field.invalid { border-color: #E04C4C; }
+.field-label { display: block; font-weight: 700; font-size: 1.05rem; color: #3D3D3D; }
+.field input { width: 100%; border: none; outline: none; background: transparent; font-size: .85rem; color: #333; padding: 8px 4px 4px; }
+.field input::placeholder { color: #9A9A9A; }
+
+/* Remember me + lupa password */
+.row { display: flex; justify-content: space-between; align-items: center; margin: 16px 6px 0; }
+.remember { display: flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; position: relative; }
+.remember input { position: absolute; opacity: 0; width: 0; height: 0; }
+.box { width: 26px; height: 26px; background: #F0F0F0; border: 2px solid #E2E2E2; border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; transition: .2s; }
+.remember input:checked + .box { background: var(--purple); border-color: var(--purple); }
+.remember input:checked + .box::after { content: ''; width: 6px; height: 12px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg) translate(-1px, -1px); }
+.remember input:focus-visible + .box { outline: 3px solid rgba(194,127,211,.5); }
+.forgot { font-size: .8rem; color: var(--purple); }
+.forgot:hover { text-decoration: underline; }
+
+/* Pesan galat / sukses */
+.message { min-height: 22px; margin: 10px 0 0; font-size: .8rem; font-weight: 600; text-align: center; color: #D13B3B; }
+.message.ok { color: #3A7D1E; }
+
+/* Tombol pil ungu */
+.btn-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, #DCC2EA 0%, #A56FC4 100%);
+    color: #fff; border: none; border-radius: 999px;
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.5rem;
+    padding: 10px 44px; cursor: pointer; transition: .2s;
+    text-shadow: 0 1px 2px rgba(0,0,0,.15);
+    box-shadow: 0 4px 10px rgba(120, 70, 160, .25);
+}
+.btn-pill:hover { transform: translateY(-3px); box-shadow: 0 10px 18px rgba(120, 70, 160, .35); }
+.btn-pill:disabled { opacity: .6; cursor: wait; transform: none; }
+.btn-submit { align-self: center; margin-top: auto; padding: 10px 62px; }
+
+/* ---------- Responsif ---------- */
+@media (max-width: 860px) {
+    .login-card { grid-template-columns: 1fr; border-radius: 50px; padding: 40px 18px; gap: 26px; }
+    .divider { width: 70%; height: 2px; margin: 0 auto; }
+    .left { flex-direction: column-reverse; gap: 22px; padding: 0; }
+    .logo-wrap { flex: none; }
+    .logo-wrap img { width: 200px; }
+    .left .btn-pill { font-size: 1.1rem; padding: 8px 36px; }
+    .right { padding: 0; }
+    .btn-submit { margin-top: 18px; }
+}

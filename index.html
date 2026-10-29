@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignBridge - Belajar BISINDO</title>
+    <meta name="description" content="SignBridge - Belajar Bahasa Isyarat Indonesia (BISINDO) dari dasar dengan menyenangkan" />
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="global.css" />
+</head>
+<body>
+
+    <!-- 1. NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <a href="index.html" class="brand">
+            <img src="dokumentasi/foto/Logo_SignBridge_dengan_Ikon_Tangan_Ungu-removebg-preview.png" alt="SignBridge" />
+            <span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="modul/Modul.html">Learn</a>
+            <a href="komunitas/Komunitas.html">SignFriends</a>
+            <a href="Dashbord/Dashbord.html">Dashboard</a>
+            <a href="login/Login.html" class="btn-signin">Sign In</a>
+        </nav>
+    </header>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="hero-visual">
+            <!-- Bentuk ungu -->
+            <svg class="blob" viewBox="0 0 540 480" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                    <linearGradient id="blobGrad" x1="0.1" y1="0" x2="0.85" y2="1">
+                        <stop offset="0%"   stop-color="#7B52C8" />
+                        <stop offset="55%"  stop-color="#9B84D8" />
+                        <stop offset="100%" stop-color="#E6DFF4" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#blobGrad)"
+                      d="M70,28 C30,30 10,55 20,85 C40,140 95,185 170,205 C250,228 330,235 400,260 C455,280 510,300 512,245 C514,190 460,140 390,112 C320,84 200,26 70,28 Z" />
+            </svg>
+
+            <!-- Tangan segitiga (atas) -->
+            <img src="dokumentasi/foto/Tangan_Membentuk_Atap_Segitiga-removebg-preview.png" alt="Isyarat tangan segitiga" class="hand h1" />
+            <!-- Tangan huruf L (kiri bawah) -->
+            <img src="dokumentasi/foto/Tangan_Kartun_Membentuk_Huruf_L-removebg-preview.png" alt="Isyarat huruf L" class="hand h4" />
+            <!-- Dua kepalan tangan (kanan bawah) -->
+            <img src="dokumentasi/foto/Genggaman_Tangan_Kartun_Berinteraksi-removebg-preview.png" alt="Isyarat tangan berinteraksi" class="hand h3" />
+        </div>
+
+        <div class="hero-text reveal">
+            <h1>BELAJAR<br />BISINDO</h1>
+            <p>Mulai belajar bahasa isyarat dari dasar dengan menyenangkan!</p>
+            <a href="login/Login.html" class="btn btn-lime">Mulai <i>&rsaquo;</i></a>
+        </div>
+    </section>
+
+    <!-- 3. MATERI -->
+    <section class="materi" id="materi">
+        <div class="cards">
+            <a href="#" class="card reveal">
+                <div class="card-img"><img src="dokumentasi/foto//Tangan_Melambai_Bergaya_Emoji-removebg-preview.png" alt="Halo dan Salam" /></div>
+                <div class="card-foot">
+                    <span>Pengenalan Halo<br />dan Salam</span>
+                    <b class="arrow">&rsaquo;</b>
+                </div>
+            </a>
+            <a href="Pembelajaran/Pembelajaran.html" class="card reveal">
+                <div class="card-img"><img src="dokumentasi/foto/Tangan_Membentuk_Segitiga-removebg-preview.png" alt="Alphabet" /></div>
+                <div class="card-foot">
+                    <span>Pengenalan<br />Alphabet</span>
+                    <b class="arrow">&rsaquo;</b>
+                </div>
+            </a>
+        </div>
+        <a href="Pembelajaran2/Pembelajaran2.html" class="btn btn-more">lihat lebih banyak <i>&rsaquo;</i></a>
+    </section>
+
+    <!-- 4. TENTANG BISINDO -->
+    <section class="about">
+        <div class="about-inner reveal">
+            <img src="dokumentasi/foto/Ilustrasi_Tangan_Melambai_dan_Berjabat-removebg-preview.png" alt="Tepuk tangan isyarat" class="about-img" />
+            <p>
+                Bahasa Isyarat Indonesia (BISINDO) adalah sistem komunikasi visual
+                yang digunakan komunitas Tuli di Indonesia melalui gerakan tangan,
+                ekspresi wajah, dan posisi tubuh.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. SIGNFRIENDS -->
+    <section class="friends" id="signfriends">
+        <div class="friends-inner reveal">
+            <img src="dokumentasi/foto/Dasbor SignFriends dengan Komentar.png" alt="Tampilan SignFriends" class="friends-img" />
+            <div class="friends-text">
+                <h2>Bertemu dengan<br />SignFriends</h2>
+                <a href="komunitas/Komunitas.html" class="btn btn-dark">Mulai</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. CTA -->
+    <section class="cta">
+        <div class="reveal">
+            <h2>Mari Kita bangun jembatan<br />komunikasi bersama.</h2>
+            <p>Bersama Kita Berkomunikasi</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="index.html" class="brand big">
+            <img src="dokumentasi/foto/Logo_SignBridge_dengan_Ikon_Tangan_Ungu-removebg-preview.png" alt="SignBridge" />
+            <span></span>
+        </a>
+        <div class="foot-col">
+            <h6>FOLLOW US</h6>
+            <div class="socials">
+                <a href="#"><span class="ic ig">&#9679;</span>Instagram</a>
+                <a href="#"><span class="ic tt">&#9679;</span>TikTok</a>
+                <a href="#"><span class="ic yt">&#9654;</span>Youtube</a>
+            </div>
+        </div>
+        <div class="foot-col">
+            <h6>CONTACT INFO</h6>
+            <div class="contacts">
+                <a href="mailto:signbridge@gmail.com"><span class="ic mail">M</span><span>contact@signbridge.com<small>Email</small></span></a>
+                <a href="https://wa.me/6281234567890"><span class="ic wa">W</span><span>+62 812 3456 7890<small>WhatsApp</small></span></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

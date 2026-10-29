@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignBridge - SignFriends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="Komunitas.css" />
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="../index.html" class="brand">
+            <img src="../dokumentasi/foto/Logo_SignBridge_dengan_Ikon_Tangan_Ungu-removebg-preview.png" alt="SignBridge" />
+            <span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="../index.html">Beranda</a>
+            <a href="../modul/Modul.html">Learn</a>
+            <a href="../komunitas/Komunitas.html">SignFriends</a>
+            <a href="../dashbord/Dashbord.html">Dashboard</a>
+            <a href="#" class="avatar"><img src="../assets/avatar.png" alt="Profil" /></a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="top">
+            <h1>SignFriends</h1>
+            <button class="plus" id="addBtn" type="button" aria-label="Buat postingan baru">+</button>
+        </div>
+
+        <div class="layout">
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <label class="search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M15 15l6 6"/></svg>
+                    <input type="text" id="searchInput" placeholder="Search........" />
+                </label>
+
+                <h2 class="side-title">Suggested Topics</h2>
+                <div class="pill-list" id="topics"></div>
+
+                <h2 class="side-title stories-title">Friend's Stories</h2>
+                <div class="pill-list" id="stories"></div>
+            </aside>
+
+            <!-- Feed -->
+            <section class="feed">
+                <div id="feed"></div>
+                <p class="end-text" id="endText">Belum ada postingan terbaru</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal postingan baru -->
+    <div class="modal" id="modal" hidden>
+        <form class="modal-box" id="postForm">
+            <h3>Postingan Baru</h3>
+            <textarea id="caption" rows="3" placeholder="Ceritakan pengalaman belajarmu..." required></textarea>
+            <select id="tagSelect">
+                <option value="">Tanpa topik</option>
+                <option value="AbjadDasar">#AbjadDasar</option>
+                <option value="Bahasasehari">#Bahasasehari</option>
+            </select>
+            <input type="file" id="photo" accept="image/*" />
+            <div class="modal-btns">
+                <button type="button" class="btn-cancel" id="cancelBtn">Batal</button>
+                <button type="submit" class="btn-post">Posting</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="Komunitas.js"></script>
+</body>
+</html>

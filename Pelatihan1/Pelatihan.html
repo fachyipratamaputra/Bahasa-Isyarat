@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignBridge - Kuis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="Pelatihan.css" />
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <img src="../dokumentasi/foto/Logo_SignBridge_dengan_Ikon_Tangan_Ungu-removebg-preview.png" alt="SignBridge" />
+        </a>
+        <nav class="nav-links">
+            <a href="../index.html">Beranda</a>
+            <a href="../Modul/Modul.html">Learn</a>
+            <a href="../Komunitas/Komunitas.html">SignFriends</a>
+            <a href="../Dashbord/Dashbord.html">Dashboard</a>
+            <a href="#" class="avatar"><img src="assets/avatar.png" alt="Profil" /></a>
+        </nav>
+    </header>
+
+    <main class="quiz">
+        <div class="progress"><div class="progress-bar" id="bar"><span class="knob"></span></div></div>
+
+        <h1 class="question">Gerakan di bawah ini artinya apa?</h1>
+
+        <div class="quiz-body" id="quizBody">
+            <div class="quiz-img"><img id="signImg" src="" alt="Gerakan isyarat" /></div>
+            <div class="quiz-side">
+                <div class="options" id="options"></div>
+                <button class="btn-next" id="nextBtn" disabled>Selanjutnya</button>
+            </div>
+        </div>
+
+        <div class="result" id="result" hidden>
+            <h2>Kuis Selesai!</h2>
+            <p>Skor kamu: <b id="score"></b></p>
+            <div class="result-btns">
+                <button class="btn-next" id="retryBtn">Ulangi</button>
+                <a href="index.html" class="btn-next light">Kembali</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="Pelatihan.js"></script>
+</body>
+</html>

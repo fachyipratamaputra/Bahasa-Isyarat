@@ -1,0 +1,57 @@
+:root {
+    --lime: #CDE03A;
+    --purple: #9B3FD4;
+    --indigo: #2B1A7C;
+    --green: #3DFF5A;
+    --track: #CCCCCC;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #EFEFEF; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* Navbar */
+.navbar { background: var(--lime); height: 46px; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 5; }
+.brand { display: flex; align-items: center; gap: 6px; font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--purple); font-size: 1.2rem; }
+.brand img { width: 28px; height: 28px; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 16px; font-size: .65rem; font-weight: 700; }
+.nav-links a { color: var(--purple); }
+.nav-links a:hover { color: var(--indigo); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; background: #B8B8D8; border: 2px solid #fff; box-shadow: 0 0 0 1px #bbb; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Latar: abu-abu di atas, makin ungu ke bawah */
+.page { min-height: calc(100vh - 46px); background: linear-gradient(165deg, #EFEFEF 38%, #E2D0E6 60%, #B259B8 100%); padding: 36px 20px 50px; }
+.wrap { max-width: 650px; margin: 0 auto; }
+
+h1 { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.9rem; color: #000; text-align: center; letter-spacing: -.3px; }
+.title-bar { width: 244px; height: 8px; background: var(--track); border-radius: 999px; margin: 8px auto 40px; }
+
+/* Grid kartu */
+.modul-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 34px; }
+
+.modul-card { background: #fff; border-radius: 14px; padding: 22px 22px 18px; min-height: 132px; box-shadow: 0 2px 8px rgba(0, 0, 0, .06); display: flex; flex-direction: column; justify-content: space-between; transition: transform .25s, box-shadow .25s; }
+a.modul-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(120, 50, 140, .25); }
+
+.modul-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.modul-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.2; color: #3F3F3F; }
+.modul-icon { width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; }
+.modul-percent { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; color: #7A7A7A; margin: 4px 0 6px; }
+
+/* Progress bar */
+.bar { height: 11px; background: var(--track); border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; width: 0; min-width: 12px; background: var(--green); border-radius: 999px; transition: width 1.1s ease; }
+
+/* Kartu terkunci */
+.modul-card.locked { align-items: center; justify-content: center; text-align: center; gap: 10px; cursor: not-allowed; }
+.modul-card.locked .modul-icon { width: 40px; height: 40px; }
+.modul-card.locked .modul-title { font-size: 1.05rem; }
+.modul-card.locked .bar { width: 100%; }
+
+@media (max-width: 640px) {
+    .navbar { padding: 0 14px; }
+    .nav-links { gap: 8px; }
+    h1 { font-size: 1.4rem; }
+    .modul-grid { grid-template-columns: 1fr; gap: 18px; }
+}
