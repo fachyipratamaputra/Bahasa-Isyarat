@@ -1,7 +1,6 @@
 // ============================================
 // LOGIN SIGNBRIDGE
-// Catatan: ini validasi di sisi tampilan saja (belum cek ke server).
-// Untuk login sungguhan, sambungkan di fungsi doLogin() ke API/Ionic kamu.
+// Terhubung ke backend Node.js (lihat folder backend/).
 // ============================================
 const form       = document.getElementById('loginForm');
 const emailEl    = document.getElementById('email');
@@ -10,8 +9,8 @@ const rememberEl = document.getElementById('remember');
 const messageEl  = document.getElementById('message');
 const submitBtn  = form.querySelector('.btn-submit');
 
-const REDIRECT_TO = '../Dashbord/Dashbord.html'; // halaman tujuan setelah berhasil
-
+const API_URL     = 'http://localhost:3000/api'; // alamat backend
+const REDIRECT_TO = '../index.html'; // halaman tujuan setelah berhasil
 // Isi otomatis email jika sebelumnya dicentang "Remember me"
 try {
     const saved = localStorage.getItem('signbridge_email');
@@ -61,17 +60,25 @@ function validate() {
     return true;
 }
 
-// Ganti isi fungsi ini dengan permintaan ke server kamu
+// Kirim email & password ke backend, simpan token jika berhasil
 async function doLogin(email, password) {
-    // Contoh:
-    // const res = await fetch('https://alamat-api-kamu/login', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ email, password })
-    // });
-    // if (!res.ok) throw new Error('Email atau password salah.');
-    // return res.json();
-    return new Promise(resolve => setTimeout(resolve, 600)); // simulasi
+    let res;
+    try {
+        res = await fetch(API_URL + '/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+    } catch (err) {
+        throw new Error('Tidak bisa terhubung ke server. Pastikan backend sudah jalan.');
+    }
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Gagal masuk, coba lagi.');
+
+    localStorage.setItem('signbridge_token', data.token);
+    localStorage.setItem('signbridge_user', JSON.stringify(data.user));
+    return data;
 }
 
 form.addEventListener('submit', async e => {
@@ -98,15 +105,11 @@ form.addEventListener('submit', async e => {
     }
 });
 
-// Tombol sosial, daftar, dan lupa password (belum tersambung)
+// Tombol sosial dan lupa password (belum tersambung)
 document.querySelectorAll('.social-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         showMessage('Login dengan ' + btn.dataset.provider + ' belum tersedia.');
     });
-});
-document.getElementById('registerLink').addEventListener('click', e => {
-    e.preventDefault();
-    showMessage('Halaman pendaftaran belum tersedia.');
 });
 document.getElementById('forgotLink').addEventListener('click', e => {
     e.preventDefault();

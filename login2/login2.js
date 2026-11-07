@@ -1,7 +1,6 @@
 // ============================================
 // SIGN UP SIGNBRIDGE
-// Catatan: ini validasi di sisi tampilan saja (belum menyimpan ke server).
-// Untuk pendaftaran sungguhan, sambungkan di fungsi doRegister() ke API/Ionic kamu.
+// Terhubung ke backend Node.js (lihat folder backend/).
 // ============================================
 const form       = document.getElementById('signupForm');
 const namaEl     = document.getElementById('nama');
@@ -11,6 +10,7 @@ const rememberEl = document.getElementById('remember');
 const messageEl  = document.getElementById('message');
 const submitBtn  = form.querySelector('.btn-submit');
 
+const API_URL     = 'http://localhost:3000/api'; // alamat backend
 const REDIRECT_TO = '../Login/Login.html'; // halaman tujuan setelah berhasil daftar
 
 function showMessage(text, ok) {
@@ -59,17 +59,22 @@ function validate() {
     return true;
 }
 
-// Ganti isi fungsi ini dengan permintaan ke server kamu
+// Kirim data pendaftaran ke backend
 async function doRegister(nama, email, password) {
-    // Contoh:
-    // const res = await fetch('https://alamat-api-kamu/register', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ nama, email, password })
-    // });
-    // if (!res.ok) throw new Error('Pendaftaran gagal, email mungkin sudah dipakai.');
-    // return res.json();
-    return new Promise(resolve => setTimeout(resolve, 600)); // simulasi
+    let res;
+    try {
+        res = await fetch(API_URL + '/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, email, password })
+        });
+    } catch (err) {
+        throw new Error('Tidak bisa terhubung ke server. Pastikan backend sudah jalan.');
+    }
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || 'Gagal mendaftar, coba lagi.');
+    return data;
 }
 
 form.addEventListener('submit', async e => {
