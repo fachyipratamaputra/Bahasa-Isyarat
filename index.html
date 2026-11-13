@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="AI.css" />
+    <!-- Popup tutorial AI Penerjemah (nama file pakai tanda hubung: AI-tutorial.css) -->
+    <link rel="stylesheet" href="AI tutorial.css" />
 </head>
 <body>
 
@@ -60,8 +63,9 @@
     <!-- 3. MATERI -->
     <section class="materi" id="materi">
         <div class="cards">
-            <a href="#" class="card reveal">
-                <div class="card-img"><img src="dokumentasi/foto//Tangan_Melambai_Bergaya_Emoji-removebg-preview.png" alt="Halo dan Salam" /></div>
+            <!-- Kartu kiri sekarang mengarah ke Pembelajaran2 (sebelumnya href="#") -->
+            <a href="Pembelajaran2/Pembelajaran2.html" class="card reveal">
+                <div class="card-img"><img src="dokumentasi/foto/Tangan_Melambai_Bergaya_Emoji-removebg-preview.png" alt="Halo dan Salam" /></div>
                 <div class="card-foot">
                     <span>Pengenalan Halo<br />dan Salam</span>
                     <b class="arrow">&rsaquo;</b>
@@ -132,6 +136,54 @@
         </div>
     </footer>
 
+    <!-- ROBOT AI PENERJEMAH (melayang di kanan layar, ikut saat scroll) -->
+    <!-- Klik robot -> popup tutorial (AI-tutorial.js) -> Next -> Penerjemah/Penerjemah.html -->
+    <aside class="ai-widget" id="ai" aria-label="AI Penerjemah">
+        <button type="button" class="ai-close" aria-label="Tutup">&times;</button>
+        <div class="ai-follow">
+            <a href="Penerjemah/Penerjemah.html" class="ai-link">
+                <span class="ai-tag"><em>AI</em> Penerjemah</span>
+                <div class="ai-bubble" aria-live="polite"><span><span id="aiTyped"></span><i class="ai-cursor"></i></span></div>
+
+                <svg class="ai-robot" viewBox="0 0 240 300" role="img" aria-label="Robot asisten AI Penerjemah">
+                    <rect x="82"  y="256" width="28" height="28" rx="10" fill="#2B1A7C" />
+                    <rect x="130" y="256" width="28" height="28" rx="10" fill="#2B1A7C" />
+                    <rect x="38" y="172" width="26" height="64" rx="13" fill="#7B52C8" stroke="#2B1A7C" stroke-width="4" />
+                    <circle cx="51" cy="244" r="14" fill="#CDE53D" stroke="#2B1A7C" stroke-width="4" />
+                    <rect x="68" y="160" width="104" height="96" rx="28" fill="#A63BD6" stroke="#2B1A7C" stroke-width="5" />
+                    <rect x="92" y="180" width="56" height="40" rx="12" fill="#fff" stroke="#2B1A7C" stroke-width="3" />
+                    <path d="M104 206 L112 192 L120 206 L128 192 L136 206" fill="none" stroke="#A63BD6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="120" cy="238" r="6" fill="#CDE53D" />
+                    <g class="wave-arm">
+                        <rect x="168" y="86" width="26" height="70" rx="13" fill="#7B52C8" stroke="#2B1A7C" stroke-width="4" />
+                        <circle cx="181" cy="78" r="15" fill="#CDE53D" stroke="#2B1A7C" stroke-width="4" />
+                    </g>
+                    <g class="head">
+                        <line x1="120" y1="26" x2="120" y2="52" stroke="#2B1A7C" stroke-width="6" stroke-linecap="round" />
+                        <circle class="antenna-dot" cx="120" cy="20" r="10" fill="#CDE53D" stroke="#2B1A7C" stroke-width="4" />
+                        <rect x="52" y="52" width="136" height="100" rx="34" fill="#A63BD6" stroke="#2B1A7C" stroke-width="5" />
+                        <rect x="66" y="68" width="108" height="68" rx="24" fill="#1A1233" />
+                        <g class="eyes">
+                            <circle cx="97"  cy="96" r="11" fill="#CDE53D" />
+                            <circle cx="143" cy="96" r="11" fill="#CDE53D" />
+                            <g class="pupils">
+                                <circle cx="100" cy="93" r="3.5" fill="#fff" />
+                                <circle cx="146" cy="93" r="3.5" fill="#fff" />
+                            </g>
+                        </g>
+                        <path class="mouth" d="M100 118 Q120 134 140 118" fill="none" stroke="#CDE53D" stroke-width="5" stroke-linecap="round" />
+                        <rect x="38"  y="86" width="14" height="30" rx="7" fill="#2B1A7C" />
+                        <rect x="188" y="86" width="14" height="30" rx="7" fill="#2B1A7C" />
+                    </g>
+                </svg>
+                <div class="ai-shadow"></div>
+            </a>
+        </div>
+    </aside>
+
     <script src="main.js"></script>
+    <script src="AI.js"></script>
+    <!-- Popup tutorial AI Penerjemah (nama file pakai tanda hubung: AI-tutorial.js) -->
+    <script src="AI tutorial.js"></script>
 </body>
 </html>

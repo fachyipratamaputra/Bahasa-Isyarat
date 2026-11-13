@@ -5,12 +5,14 @@ from datetime import datetime, timedelta, timezone
 from functools import wraps
 
 import jwt
-import pymysql
+import psycopg2
+import psycopg2.extras
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import check_password_hash, generate_password_hash
 
 load_dotenv()
@@ -24,9 +26,14 @@ EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 
 app = Flask(__name__)
 
-# Token dikirim lewat header (bukan cookie), jadi aman mengizinkan frontend
-# dari Live Server (5500), XAMPP Apache (80), atau file:// saat development.
-CORS(app)
+# Di hosting (Render/Railway) request lewat proxy; ProxyFix supaya IP asli
+# pengguna terbaca (dipakai rate limiter).
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
+
+# Token dikirim lewat header (bukan cookie), jadi CORS aman. Saat online, isi
+# CORS_ORIGINS dengan alamat website kamu supaya hanya situs itu yang boleh akses.
+_origins = os.getenv("CORS_ORIGINS", "*").strip()
+CORS(app, origins="*" if _origins == "*" else [o.strip() for o in _origins.split(",")])
 
 # Batasi percobaan login/register: 10x per 15 menit per IP
 limiter = Limiter(get_remote_address, app=app, default_limits=[], storage_uri="memory://")
@@ -34,15 +41,20 @@ AUTH_LIMIT = "10 per 15 minutes"
 
 
 def get_db():
-    """Buat koneksi baru ke MySQL XAMPP."""
-    return pymysql.connect(
+    """Buat koneksi baru ke PostgreSQL.
+    Pakai DATABASE_URL (Supabase/Neon/Render) kalau ada, kalau tidak pakai DB_* terpisah."""
+    dict_cursor = psycopg2.extras.RealDictCursor
+    url = os.getenv("DATABASE_URL")
+    if url:
+        return psycopg2.connect(url, cursor_factory=dict_cursor, connect_timeout=10)
+    return psycopg2.connect(
         host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", "3306")),
-        user=os.getenv("DB_USER", "root"),
+        port=int(os.getenv("DB_PORT", "5432")),
+        user=os.getenv("DB_USER", "postgres"),
         password=os.getenv("DB_PASSWORD", ""),
-        database=os.getenv("DB_NAME", "signbridge"),
-        charset="utf8mb4",
-        cursorclass=pymysql.cursors.DictCursor,
+        dbname=os.getenv("DB_NAME", "signbridge"),
+        cursor_factory=dict_cursor,
+        connect_timeout=10,
     )
 
 
@@ -106,7 +118,7 @@ def register():
                 (nama, email, generate_password_hash(password)),
             )
         conn.commit()
-    except pymysql.err.IntegrityError:  # email dobel (balapan dua request)
+    except psycopg2.IntegrityError:  # email dobel (balapan dua request)
         return jsonify(message="Email sudah terdaftar."), 409
     finally:
         conn.close()
@@ -173,10 +185,10 @@ def not_found(_):
     return jsonify(message="Endpoint tidak ditemukan."), 404
 
 
-@app.errorhandler(pymysql.err.OperationalError)
+@app.errorhandler(psycopg2.OperationalError)
 def db_down(err):
     print("Gagal konek database:", err)
-    return jsonify(message="Database tidak bisa dihubungi. Pastikan MySQL XAMPP sudah Start."), 500
+    return jsonify(message="Database tidak bisa dihubungi. Periksa DATABASE_URL / koneksi PostgreSQL."), 500
 
 
 @app.errorhandler(500)
@@ -187,4 +199,4 @@ def server_error(_):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "3000"))
     print(f"Server jalan di http://localhost:{port}")
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=os.getenv("FLASK_DEBUG") == "1")

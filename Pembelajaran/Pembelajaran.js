@@ -1,10 +1,23 @@
 // ============================================
 // ALFABET BISINDO - 9 huruf per halaman (A-I, J-R, S-Z)
-// Gambar: ../assets/alfabet/a.png, b.png, ... z.png
+// Gambar: ../dokumentasi/foto/Alfabet/A-removebg-preview.png, dst.
 // ============================================
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const PER_PAGE = 9;
 const TOTAL_PAGES = Math.ceil(LETTERS.length / PER_PAGE);
+
+// Folder gambar dan pola nama file
+const IMG_FOLDER = '../dokumentasi/foto/Alfabet/';
+const IMG_SUFFIX = '-removebg-preview.png';
+
+// Huruf yang nama filenya memakai huruf KECIL (sesuai isi folder).
+// Kalau ada huruf lain yang filenya kecil (misalnya x, y, z), tambahkan di sini.
+const LOWERCASE_FILES = ['O', 'P', 'V', 'W'];
+
+function imagePath(ch) {
+    const name = LOWERCASE_FILES.includes(ch) ? ch.toLowerCase() : ch;
+    return IMG_FOLDER + name + IMG_SUFFIX;
+}
 
 const grid     = document.getElementById('grid');
 const backBtn  = document.getElementById('backBtn');
@@ -26,7 +39,7 @@ function render() {
         card.className = 'letter-card';
         card.setAttribute('aria-label', 'Huruf ' + ch);
         card.innerHTML =
-            '<div class="letter-img"><img src="../assets/alfabet/' + ch.toLowerCase() + '.png" alt="Isyarat huruf ' + ch + '" /></div>' +
+            '<div class="letter-img"><img src="' + imagePath(ch) + '" alt="Isyarat huruf ' + ch + '" /></div>' +
             '<span class="letter-char">' + ch + '</span>';
         grid.appendChild(card);
     });

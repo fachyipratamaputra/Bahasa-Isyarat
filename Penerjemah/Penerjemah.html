@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Penerjemah - SignBridge</title>
+    <link rel="icon" href="../assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="Penerjemah.css" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="topbar">
+        <a href="../index.html" class="back">&lsaquo; Kembali</a>
+        <a href="../index.html" class="brand">
+            <img src="../dokumentasi/foto/Logo_SignBridge_dengan_Ikon_Tangan_Ungu-removebg-preview.png" alt="SignBridge" />
+        </a>
+        <span class="badge"><em>AI</em> Penerjemah</span>
+    </header>
+
+    <main class="wrap">
+        <div class="title">
+            <h1>AI Penerjemah BISINDO</h1>
+            <p>Arahkan tanganmu ke layar kamera, AI akan mendeteksi gerakannya.</p>
+        </div>
+
+        <div class="layout">
+            <!-- KOTAK AI (persegi panjang) -->
+            <section class="stage">
+                <div class="screen" id="screen">
+                    <video id="cam" playsinline muted></video>
+                    <canvas id="overlay"></canvas>
+
+                    <i class="corner tl"></i><i class="corner tr"></i>
+                    <i class="corner bl"></i><i class="corner br"></i>
+
+                    <!-- Pesan di tengah layar (belum mulai / loading / error) -->
+                    <div class="screen-msg" id="screenMsg">
+                        <div class="cam-icon">&#128247;</div>
+                        <strong id="msgTitle">Kamera belum aktif</strong>
+                        <span id="msgText">Tekan tombol "Mulai Kamera" untuk memulai.</span>
+                    </div>
+
+                    <span class="live" id="liveTag" hidden>&#9679; LIVE</span>
+                </div>
+
+                <div class="controls">
+                    <button type="button" class="btn primary" id="btnStart">Mulai Kamera</button>
+                    <button type="button" class="btn" id="btnStop" disabled>Hentikan</button>
+                </div>
+            </section>
+
+            <!-- PANEL HASIL -->
+            <aside class="panel">
+                <div class="result">
+                    <small>HASIL TERJEMAHAN</small>
+                    <div class="result-text" id="resultText">Menunggu gerakan tangan...</div>
+                    <div class="meter"><span id="meterBar"></span></div>
+                    <div class="result-meta" id="resultMeta">Tangan terdeteksi: -</div>
+                </div>
+
+                <div class="history">
+                    <div class="history-head">
+                        <h2>Riwayat</h2>
+                        <button type="button" id="btnClear">Hapus</button>
+                    </div>
+                    <ul id="historyList"><li class="empty">Belum ada terjemahan.</li></ul>
+                </div>
+
+                <p class="note">
+                    Mode demo: pengenalan dasar memakai jumlah jari. Model BISINDO bisa dipasang
+                    lewat <code>window.SignBridgeClassify</code> di <code>Penerjemah.js</code>.
+                </p>
+            </aside>
+        </div>
+    </main>
+
+    <!-- MediaPipe Hands (deteksi tangan, jalan di browser) -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="Penerjemah.js"></script>
+</body>
+</html>

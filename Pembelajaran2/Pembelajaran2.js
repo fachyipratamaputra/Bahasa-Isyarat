@@ -50,8 +50,8 @@ function render() {
         grid.appendChild(card);
     });
 
-    // Back: halaman pertama kembali ke halaman Alfabet (halaman terakhir)
-    backBtn.href = (page === 1) ? '../Pembelajaran/Pembelajaran.html?page=3' : '#';
+    // Back: halaman pertama kembali ke index.html
+    backBtn.href = (page === 1) ? '../index.html' : '#';
 
     // Next: halaman terakhir lanjut ke kuis kata
     if (page === TOTAL_PAGES) {
