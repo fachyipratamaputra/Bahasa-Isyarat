@@ -8,7 +8,7 @@ const TOTAL_PAGES = Math.ceil(LETTERS.length / PER_PAGE);
 
 // Folder gambar dan pola nama file
 const IMG_FOLDER = '../dokumentasi/foto/Alfabet/';
-const IMG_SUFFIX = '-removebg-preview.png';
+const IMG_SUFFIX = '.png';
 
 // Huruf yang nama filenya memakai huruf KECIL (sesuai isi folder).
 // Kalau ada huruf lain yang filenya kecil (misalnya x, y, z), tambahkan di sini.

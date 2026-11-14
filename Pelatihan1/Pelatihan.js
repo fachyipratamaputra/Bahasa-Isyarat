@@ -1,12 +1,57 @@
-// Ganti 'img' sesuai nama file gambar isyarat kamu di folder assets/
-const questions = [
-    { img: 'assets/quiz-t.png', options: ['A', 'F', 'C'], answer: 'F' },
-    { img: 'assets/quiz-a.png', options: ['A', 'B', 'D'], answer: 'A' },
-    { img: 'assets/quiz-c.png', options: ['C', 'E', 'G'], answer: 'C' },
-    { img: 'assets/quiz-l.png', options: ['L', 'M', 'N'], answer: 'L' },
-    { img: 'assets/quiz-o.png', options: ['O', 'P', 'Q'], answer: 'O' }
-];
+// =====================================================
+// SIGNBRIDGE - KUIS ALFABET BISINDO (Pelatihan 1)
+// Setiap kuis dimulai atau diulang, soal DIACAK ulang dari 26 huruf,
+// jadi isi kuis tidak selalu sama. Gambar diambil dari
+// ../dokumentasi/foto/Alfabet/ (A.png, B.png, ... Z.png).
+// =====================================================
+const IMG_FOLDER = '../dokumentasi/foto/Alfabet/';
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const QUESTION_COUNT = 5;   // jumlah soal tiap kuis
+const OPTION_COUNT = 3;     // jumlah pilihan jawaban
+const STORE_KEY = 'signbridge_alfabet_terakhir';
 
+// Hosting online membedakan huruf besar/kecil, jadi nama file harus sama persis.
+function imageOf(letter) {
+    return IMG_FOLDER + letter + '.png';
+}
+
+function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+// Ingat huruf kuis sebelumnya supaya kuis berikutnya memakai huruf yang berbeda
+function loadLast() {
+    try { return JSON.parse(sessionStorage.getItem(STORE_KEY)) || []; }
+    catch (e) { return []; }
+}
+function saveLast(list) {
+    try { sessionStorage.setItem(STORE_KEY, JSON.stringify(list)); }
+    catch (e) { /* penyimpanan tidak tersedia, abaikan */ }
+}
+
+function buildQuestions() {
+    const last = loadLast();
+    const fresh = shuffle(LETTERS.filter(l => !last.includes(l)));
+    const used  = shuffle(LETTERS.filter(l => last.includes(l)));
+    const chosen = fresh.concat(used).slice(0, QUESTION_COUNT);
+    saveLast(chosen);
+
+    return chosen.map(letter => {
+        const wrong = shuffle(LETTERS.filter(l => l !== letter)).slice(0, OPTION_COUNT - 1);
+        return {
+            img: imageOf(letter),
+            options: shuffle([letter].concat(wrong)),
+            answer: letter
+        };
+    });
+}
+
+let questions = buildQuestions();
 let index = 0;
 let score = 0;
 let selected = null;
@@ -26,7 +71,8 @@ function render() {
     selected = null;
     answered = false;
     nextBtn.disabled = true;
-    nextBtn.textContent = index === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
+    nextBtn.textContent = 'Periksa';
+    signImg.alt = 'Gerakan isyarat';
     signImg.src = q.img;
     optionsEl.innerHTML = '';
     q.options.forEach(opt => {
@@ -38,6 +84,10 @@ function render() {
     });
     bar.style.width = Math.max(6, (index / questions.length) * 100) + '%';
 }
+
+signImg.addEventListener('error', () => {
+    signImg.alt = 'Gambar tidak ditemukan';
+});
 
 function choose(btn, opt) {
     if (answered) return;
@@ -51,7 +101,7 @@ nextBtn.addEventListener('click', () => {
     if (selected === null) return;
     const q = questions[index];
 
-    // Klik pertama: tampilkan benar/salah. Klik kedua: lanjut.
+    // Klik pertama ("Periksa"): tampilkan benar/salah. Klik kedua: lanjut.
     if (!answered) {
         answered = true;
         if (selected === q.answer) score++;
@@ -60,6 +110,7 @@ nextBtn.addEventListener('click', () => {
             if (o.textContent === q.answer) o.classList.add('correct');
             else if (o.textContent === selected) o.classList.add('wrong');
         });
+        nextBtn.textContent = index === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
         return;
     }
 
@@ -80,6 +131,7 @@ function finish() {
 }
 
 document.getElementById('retryBtn').addEventListener('click', () => {
+    questions = buildQuestions();   // soal baru, berbeda dari kuis sebelumnya
     index = 0;
     score = 0;
     quizBody.hidden = false;
