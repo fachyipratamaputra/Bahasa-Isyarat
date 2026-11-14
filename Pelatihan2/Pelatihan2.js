@@ -3,16 +3,16 @@
 // Soal dibuat otomatis dari daftar kata di bawah (sama dengan
 // halaman Pembelajaran2), dan DIACAK ulang setiap kuis dimulai
 // atau diulang. Mau tambah kata? Cukup tambah baris di WORDS
-// (dan taruh gambarnya di folder assets/kata/).
+// (dan taruh gambarnya di folder dokumentasi/foto/Sehari hari/).
 // =====================================================
-const IMG_FOLDER = '../assets/kata/';
+const IMG_FOLDER = '../dokumentasi/foto/Sehari hari/';
 const WORDS = [
-    { text: 'Rumah',     file: 'rumah.png' },
-    { text: 'Kerja',     file: 'kerja.png' },
-    { text: 'Pulang',    file: 'pulang.png' },
-    { text: 'Sekolah',   file: 'sekolah.png' },
-    { text: 'Hati-hati', file: 'hati-hati.png' },
-    { text: 'Umur',      file: 'umur.png' }
+    { text: 'Rumah',     file: 'Rumah.png' },
+    { text: 'Kerja',     file: 'Kerja.png' },
+    { text: 'Pulang',    file: 'Pulang.png' },
+    { text: 'Sekolah',   file: 'Sekolah.png' },
+    { text: 'Hati-hati', file: 'Hati Hati.png' },   // nama file asli pakai spasi
+    { text: 'Umur',      file: 'Umur.png' }
 ];
 const QUESTION_COUNT = 5;   // jumlah soal tiap kuis
 const OPTION_COUNT = 3;     // jumlah pilihan jawaban
@@ -33,7 +33,8 @@ function buildQuestions() {
             .slice(0, OPTION_COUNT - 1)
             .map(w => w.text);
         return {
-            img: IMG_FOLDER + word.file,
+            // encodeURI supaya spasi di nama folder/file terbaca benar oleh browser
+            img: encodeURI(IMG_FOLDER + word.file),
             options: shuffle([word.text].concat(wrong)),
             answer: word.text
         };
@@ -65,6 +66,7 @@ function updateBar(done) {
 }
 
 signImg.addEventListener('error', () => {
+    console.warn('Gambar tidak ditemukan:', signImg.src);
     signImg.alt = 'Gambar belum tersedia';
 });
 

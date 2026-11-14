@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="AI.css" />
-    <!-- Popup tutorial AI Penerjemah (nama file pakai tanda hubung: AI-tutorial.css) -->
+    <!-- Popup tutorial AI Penerjemah (nama file harus persis sama dengan yang ada di folder) -->
     <link rel="stylesheet" href="AI tutorial.css" />
 </head>
 <body>
@@ -25,6 +25,7 @@
             <a href="modul/Modul.html">Learn</a>
             <a href="komunitas/Komunitas.html">SignFriends</a>
             <a href="Dashbord/Dashbord.html">Dashboard</a>
+            <!-- Kalau sudah login, tombol ini diganti foto profil oleh auth-nav.js -->
             <a href="login/Login.html" class="btn-signin">Sign In</a>
         </nav>
     </header>
@@ -56,6 +57,7 @@
         <div class="hero-text reveal">
             <h1>BELAJAR<br />BISINDO</h1>
             <p>Mulai belajar bahasa isyarat dari dasar dengan menyenangkan!</p>
+            <!-- Kalau sudah login, tombol ini disembunyikan oleh auth-nav.js -->
             <a href="login/Login.html" class="btn btn-lime">Mulai <i>&rsaquo;</i></a>
         </div>
     </section>
@@ -63,7 +65,6 @@
     <!-- 3. MATERI -->
     <section class="materi" id="materi">
         <div class="cards">
-            <!-- Kartu kiri sekarang mengarah ke Pembelajaran2 (sebelumnya href="#") -->
             <a href="Pembelajaran2/Pembelajaran2.html" class="card reveal">
                 <div class="card-img"><img src="dokumentasi/foto/Tangan_Melambai_Bergaya_Emoji-removebg-preview.png" alt="Halo dan Salam" /></div>
                 <div class="card-foot">
@@ -137,7 +138,7 @@
     </footer>
 
     <!-- ROBOT AI PENERJEMAH (melayang di kanan layar, ikut saat scroll) -->
-    <!-- Klik robot -> popup tutorial (AI-tutorial.js) -> Next -> Penerjemah/Penerjemah.html -->
+    <!-- Klik robot -> popup tutorial -> Next -> Penerjemah/Penerjemah.html -->
     <aside class="ai-widget" id="ai" aria-label="AI Penerjemah">
         <button type="button" class="ai-close" aria-label="Tutup">&times;</button>
         <div class="ai-follow">
@@ -183,9 +184,9 @@
 
     <script src="auth-gate.js"></script>
     <script src="main.js"></script>
-    <script src="main.js"></script>
     <script src="AI.js"></script>
-    <!-- Popup tutorial AI Penerjemah (nama file pakai tanda hubung: AI-tutorial.js) -->
     <script src="AI tutorial.js"></script>
+    <!-- Status login: Sign In -> foto profil, sembunyikan tombol Mulai -->
+    <script src="Aut nav.js"></script>
 </body>
 </html>

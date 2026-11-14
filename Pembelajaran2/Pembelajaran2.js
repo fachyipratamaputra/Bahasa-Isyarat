@@ -1,15 +1,17 @@
 // ============================================
 // BAHASA SEHARI-HARI BISINDO - 6 kata per halaman
-// Gambar: ../assets/kata/rumah.png, kerja.png, dst.
+// Gambar: ../dokumentasi/foto/Sehari hari/<Nama>.png
 // Mau tambah kata? Cukup tambah baris di WORDS, halaman otomatis bertambah.
 // ============================================
+const IMG_DIR = '../dokumentasi/foto/Sehari hari/';
+
 const WORDS = [
-    { text: 'Rumah',     img: '../assets/kata/rumah.png' },
-    { text: 'Kerja',     img: '../assets/kata/kerja.png' },
-    { text: 'Pulang',    img: '../assets/kata/pulang.png' },
-    { text: 'Sekolah',   img: '../assets/kata/sekolah.png' },
-    { text: 'Hati-hati', img: '../assets/kata/hati-hati.png' },
-    { text: 'Umur',      img: '../assets/kata/umur.png' }
+    { text: 'Rumah',     file: 'Rumah.png' },
+    { text: 'Kerja',     file: 'Kerja.png' },
+    { text: 'Pulang',    file: 'Pulang.png' },
+    { text: 'Sekolah',   file: 'Sekolah.png' },
+    { text: 'Hati-hati', file: 'Hati Hati.png' },   // nama file asli pakai spasi
+    { text: 'Umur',      file: 'Umur.png' }
 ];
 
 const PER_PAGE = 6;
@@ -37,8 +39,14 @@ function render() {
         const imgBox = document.createElement('div');
         imgBox.className = 'word-img';
         const img = document.createElement('img');
-        img.src = w.img;
+        // encodeURI supaya spasi di nama folder/file ("Sehari hari", "Hati Hati.png") terbaca benar
+        img.src = encodeURI(IMG_DIR + w.file);
         img.alt = 'Isyarat ' + w.text;
+        img.onerror = () => {
+            console.warn('Gambar tidak ditemukan:', img.src);
+            img.style.display = 'none';
+            imgBox.textContent = '\uD83D\uDDBC\uFE0F';   // ikon cadangan jika gambar hilang
+        };
         imgBox.appendChild(img);
 
         const label = document.createElement('span');
@@ -53,7 +61,7 @@ function render() {
     // Back: halaman pertama kembali ke index.html
     backBtn.href = (page === 1) ? '../index.html' : '#';
 
-        // Next: halaman terakhir lanjut ke kuis kata
+    // Next: halaman terakhir lanjut ke kuis kata
     if (page === TOTAL_PAGES) {
         nextBtn.href = '../Pelatihan2/Pelatihan2.html';
         nextBtn.textContent = 'Kuis \u203A';
