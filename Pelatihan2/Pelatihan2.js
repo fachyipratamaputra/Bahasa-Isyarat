@@ -1,22 +1,47 @@
-// ============================================
-// SIGNBRIDGE - LOGIKA KUIS
-// Soal bisa diganti lewat file data (window.QUIZ_QUESTIONS),
-// contoh: quiz-kata-data.js. Kalau tidak ada, pakai soal huruf di bawah.
-// ============================================
-// Soal kuis kata. Ganti 'img' sesuai nama file gambar di folder assets/
-window.QUIZ_QUESTIONS = [
-    { img: 'assets/kata-kerja.png',  options: ['Kerja', 'Umur', 'Pulang'],   answer: 'Kerja' },
-    { img: 'assets/kata-umur.png',   options: ['Makan', 'Umur', 'Tidur'],    answer: 'Umur' },
-    { img: 'assets/kata-pulang.png', options: ['Pulang', 'Pergi', 'Datang'], answer: 'Pulang' },
-    { img: 'assets/kata-makan.png',  options: ['Minum', 'Mandi', 'Makan'],   answer: 'Makan' },
-    { img: 'assets/kata-tidur.png',  options: ['Tidur', 'Bangun', 'Duduk'],  answer: 'Tidur' }
+// =====================================================
+// SIGNBRIDGE - KUIS KOSAKATA BISINDO (Pelatihan 2)
+// Soal dibuat otomatis dari daftar kata di bawah (sama dengan
+// halaman Pembelajaran2), dan DIACAK ulang setiap kuis dimulai
+// atau diulang. Mau tambah kata? Cukup tambah baris di WORDS
+// (dan taruh gambarnya di folder assets/kata/).
+// =====================================================
+const IMG_FOLDER = '../assets/kata/';
+const WORDS = [
+    { text: 'Rumah',     file: 'rumah.png' },
+    { text: 'Kerja',     file: 'kerja.png' },
+    { text: 'Pulang',    file: 'pulang.png' },
+    { text: 'Sekolah',   file: 'sekolah.png' },
+    { text: 'Hati-hati', file: 'hati-hati.png' },
+    { text: 'Umur',      file: 'umur.png' }
 ];
+const QUESTION_COUNT = 5;   // jumlah soal tiap kuis
+const OPTION_COUNT = 3;     // jumlah pilihan jawaban
 
-const questions = (Array.isArray(window.QUIZ_QUESTIONS) && window.QUIZ_QUESTIONS.length)
-    ? window.QUIZ_QUESTIONS
-    : DEFAULT_QUESTIONS;
+function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function buildQuestions() {
+    const total = Math.min(QUESTION_COUNT, WORDS.length);
+    return shuffle(WORDS).slice(0, total).map(word => {
+        const wrong = shuffle(WORDS.filter(w => w.text !== word.text))
+            .slice(0, OPTION_COUNT - 1)
+            .map(w => w.text);
+        return {
+            img: IMG_FOLDER + word.file,
+            options: shuffle([word.text].concat(wrong)),
+            answer: word.text
+        };
+    });
+}
 
 // ---------- State ----------
+let questions = buildQuestions();
 let index = 0;        // nomor soal sekarang
 let score = 0;        // jumlah jawaban benar
 let selected = null;  // jawaban yang dipilih
@@ -38,6 +63,10 @@ function updateBar(done) {
     const pct = (done / questions.length) * 100;
     bar.style.width = Math.max(6, pct) + '%';
 }
+
+signImg.addEventListener('error', () => {
+    signImg.alt = 'Gambar belum tersedia';
+});
 
 // ---------- Tampilkan soal ----------
 function render() {
@@ -115,8 +144,9 @@ function finish() {
     scoreEl.textContent = score + ' / ' + questions.length;
 }
 
-// ---------- Ulangi ----------
+// ---------- Ulangi (soal baru, diacak lagi) ----------
 retryBtn.addEventListener('click', () => {
+    questions = buildQuestions();
     index = 0;
     score = 0;
     quizBody.hidden = false;

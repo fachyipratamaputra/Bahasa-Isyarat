@@ -53,11 +53,13 @@ function render() {
     // Back: halaman pertama kembali ke index.html
     backBtn.href = (page === 1) ? '../index.html' : '#';
 
-    // Next: halaman terakhir lanjut ke kuis kata
+        // Next: halaman terakhir lanjut ke kuis kata
     if (page === TOTAL_PAGES) {
         nextBtn.href = '../Pelatihan2/Pelatihan2.html';
+        nextBtn.textContent = 'Kuis \u203A';
     } else {
         nextBtn.href = '#';
+        nextBtn.textContent = 'Next \u203A';
     }
 }
 

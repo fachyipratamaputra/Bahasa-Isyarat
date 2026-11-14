@@ -100,7 +100,12 @@ form.addEventListener('submit', async e => {
         } catch (err) { /* abaikan */ }
 
         showMessage('Berhasil masuk!', true);
-        setTimeout(() => { location.href = REDIRECT_TO; }, 500);
+        setTimeout(() => {
+    // Kalau tadi dikunci dari fitur tertentu, kembali ke sana
+    let next = null;
+    try { next = sessionStorage.getItem('signbridge_after_login'); sessionStorage.removeItem('signbridge_after_login'); } catch (err) {}
+    location.href = (next && next.indexOf(location.origin) === 0) ? next : REDIRECT_TO;
+}, 500);
     } catch (err) {
         showMessage(err.message || 'Gagal masuk, coba lagi.');
         submitBtn.disabled = false;
