@@ -7,19 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="Dashbord.css" />
+    <style>
+        /* Pastikan menu selalu di sisi kanan, walau logo dikosongkan */
+        .navbar .nav-links { margin-left: auto; }
+    </style>
 </head>
 <body>
 
     <header class="navbar">
-        <a href="../index.html" class="brand">
-            <img src="../assets/logo.png" alt="SignBridge" />
-            <span>SignBridge</span>
-        </a>
+        <a href="../index.html" class="brand"></a>
         <nav class="nav-links">
             <a href="../index.html">Beranda</a>
-            <a href="../Pembelajaran/Pembelajaran.html">Learn</a>
-            <a href="#">SignFriends</a>
-            <a href="Dashbord.html">Dashboard</a>
+            <a href="../modul/Modul.html">Learn</a>
+            <a href="../komunitas/Komunitas.html">SignFriends</a>
+            <a href="../dashbord/Dashbord.html">Dashboard</a>
             <a href="#" class="avatar"><img src="../assets/avatar.png" alt="Profil" /></a>
         </nav>
     </header>
@@ -29,8 +30,7 @@
 
             <!-- Sapaan -->
             <div class="greeting">
-                <div class="avatar big"><img src="../assets/avatar.png" alt="Profil" /></div>
-                <h1>HALO <span id="userName">DAVID</span>!</h1>
+                <h1>HALO <span id="userName"></span>!</h1>
             </div>
 
             <div class="grid">
@@ -46,16 +46,16 @@
                         <span class="donut-text"><span id="percent">0</span>%</span>
                     </div>
                     <p class="total">Dari total <span id="totalModul">10</span> modul</p>
-                    <img src="../assets/dashboard/tangan.png" alt="Tangan" class="hand-icon" />
+                    <img src="../dokumentasi/foto/Ilustrasi_Tangan_Terbuka_Kartun-removebg-preview.png" alt="Tangan" class="hand-icon" />
                 </section>
 
                 <!-- Lanjutkan pelajaran -->
                 <section class="card continue-card">
                     <h2>Lanjutkan Pelajaran</h2>
                     <div class="continue-img">
-                        <img src="../assets/dashboard/lanjut.png" alt="Materi berikutnya" />
+                        <img src="../dokumentasi/foto/Ilustrasi_Tangan_Melambai_dan_Berjabat-removebg-preview.png" alt="Materi berikutnya" />
                     </div>
-                    <a href="../Pembelajaran/Pembelajaran.html" class="btn-start" id="startBtn">
+                    <a href="../modul/Modul.html" class="btn-start" id="startBtn">
                         Mulai Bab <span id="babNo">3</span> &rsaquo;
                     </a>
                 </section>
@@ -63,7 +63,7 @@
                 <!-- Achievement + Streak -->
                 <div class="right-col">
                     <section class="card outline achievement-card">
-                        <img src="../assets/dashboard/medal.png" alt="Award" />
+                        <img src="../dokumentasi/foto/Medali_Emas_Penghargaan_dengan_Pita_AWARD-removebg-preview.png" alt="Award" />
                         <div>
                             <h3>Achievement</h3>
                             <p id="achievementText">Menyelesaikan 3 Modul tanpa kesalahan.</p>
@@ -71,7 +71,7 @@
                     </section>
 
                     <section class="card outline streak-card">
-                        <img src="../assets/dashboard/api.png" alt="Streak" />
+                        <img src="../dokumentasi/foto/Ikon_Api_Ungu_Berkilau-removebg-preview.png" alt="Streak" />
                         <p><span id="streak">3</span> Days Streak</p>
                     </section>
                 </div>
@@ -80,6 +80,8 @@
         </div>
     </main>
 
+    <script src="../auth-gate.js"></script>
+    <script src="../Navbar auth.js"></script>
     <script src="Dashbord.js"></script>
 </body>
 </html>
