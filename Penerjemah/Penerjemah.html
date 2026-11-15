@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -30,8 +31,8 @@
             <!-- KOTAK AI (persegi panjang) -->
             <section class="stage">
                 <div class="screen" id="screen">
-                    <video id="cam" playsinline muted></video>
-                    <canvas id="overlay"></canvas>
+                    <!-- Stream Kamera langsung dari Python Flask -->
+                    <img id="camStream" style="width: 100%; height: 100%; object-fit: cover; display: none;" alt="Kamera AI SignBridge" />
 
                     <i class="corner tl"></i><i class="corner tr"></i>
                     <i class="corner bl"></i><i class="corner br"></i>
@@ -46,9 +47,12 @@
                     <span class="live" id="liveTag" hidden>&#9679; LIVE</span>
                 </div>
 
-                <div class="controls">
+                <div class="controls" style="flex-wrap: wrap; gap: 8px;">
                     <button type="button" class="btn primary" id="btnStart">Mulai Kamera</button>
                     <button type="button" class="btn" id="btnStop" disabled>Hentikan</button>
+                    <button type="button" class="btn" id="btnMode">Mode: KALIMAT [M]</button>
+                    <button type="button" class="btn" id="btnFlip">Balik Tangan [F]</button>
+                    <button type="button" class="btn" id="btnWarna">Warna Abjad [W]</button>
                 </div>
             </section>
 
@@ -57,7 +61,7 @@
                 <div class="result">
                     <small>HASIL TERJEMAHAN</small>
                     <div class="result-text" id="resultText">Menunggu gerakan tangan...</div>
-                    <div class="meter"><span id="meterBar"></span></div>
+                    <div class="meter"><span id="meterBar" style="width: 0%;"></span></div>
                     <div class="result-meta" id="resultMeta">Tangan terdeteksi: -</div>
                 </div>
 
@@ -70,8 +74,8 @@
                 </div>
 
                 <p class="note">
-                    Mode demo: pengenalan dasar memakai jumlah jari. Model BISINDO bisa dipasang
-                    lewat <code>window.SignBridgeClassify</code> di <code>Penerjemah.js</code>.
+                    Terhubung ke Model AI Python (<strong>CNN Abjad &amp; LSTM Kalimat</strong>).
+                    Pintasan keyboard: <code>[M]</code> Mode, <code>[F]</code> Balik, <code>[W]</code> Warna, <code>[C]</code> Reset.
                 </p>
             </aside>
         </div>
@@ -80,10 +84,131 @@
     <!-- Kunci halaman ini: kalau belum login, muncul popup "Fitur Terkunci" -->
     <script src="../auth-gate.js"></script>
 
-    <!-- MediaPipe Hands (deteksi tangan, jalan di browser) -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-    <script src="Penerjemah.js"></script>
+    <!-- Script Penghubung ke Server AI Python -->
+    <script>
+        const SERVER_URL = "http://127.0.0.1:5000";
+        const camStream = document.getElementById("camStream");
+        const screenMsg = document.getElementById("screenMsg");
+        const msgTitle = document.getElementById("msgTitle");
+        const msgText = document.getElementById("msgText");
+        const liveTag = document.getElementById("liveTag");
+
+        const btnStart = document.getElementById("btnStart");
+        const btnStop = document.getElementById("btnStop");
+        const btnMode = document.getElementById("btnMode");
+        const btnFlip = document.getElementById("btnFlip");
+        const btnWarna = document.getElementById("btnWarna");
+        const btnClear = document.getElementById("btnClear");
+
+        const resultText = document.getElementById("resultText");
+        const meterBar = document.getElementById("meterBar");
+        const resultMeta = document.getElementById("resultMeta");
+        const historyList = document.getElementById("historyList");
+
+        let statusInterval = null;
+        let lastHistoryItem = "";
+
+        function kirimKontrol(action) {
+            fetch(`${SERVER_URL}/control`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btnMode.textContent = `Mode: ${data.mode_aktif} [M]`;
+            })
+            .catch(() => {});
+        }
+
+        function tambahKeRiwayat(teks) {
+            if (!teks || teks === "-" || teks === lastHistoryItem) return;
+            lastHistoryItem = teks;
+
+            const emptyEl = historyList.querySelector(".empty");
+            if (emptyEl) emptyEl.remove();
+
+            const li = document.createElement("li");
+            const waktu = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+            li.innerHTML = `<strong>${teks}</strong> <span style="float:right; opacity:0.6; font-size:0.85em;">${waktu}</span>`;
+            historyList.prepend(li);
+        }
+
+        btnStart.addEventListener("click", () => {
+            msgTitle.textContent = "Menghubungkan Kamera AI...";
+            msgText.textContent = "Pastikan app.py sudah dijalankan di VS Code.";
+
+            camStream.src = `${SERVER_URL}/video_feed?t=${new Date().getTime()}`;
+            camStream.onload = () => {
+                camStream.style.display = "block";
+                screenMsg.style.display = "none";
+                liveTag.hidden = false;
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+            };
+            camStream.onerror = () => {
+                msgTitle.textContent = "Gagal Terhubung ke Server AI";
+                msgText.textContent = "Jalankan file app.py di Terminal VS Code terlebih dahulu.";
+            };
+
+            if (statusInterval) clearInterval(statusInterval);
+            statusInterval = setInterval(() => {
+                fetch(`${SERVER_URL}/status`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const persen = Math.round((data.conf_sementara || 0) * 100);
+                        meterBar.style.width = `${persen}%`;
+                        btnMode.textContent = `Mode: ${data.mode_aktif} [M]`;
+
+                        if (data.kalimat_hasil && data.kalimat_hasil !== "") {
+                            resultText.textContent = data.kalimat_hasil;
+                            tambahKeRiwayat(data.kalimat_hasil);
+                        } else if (data.prediksi_sementara && data.prediksi_sementara !== "-") {
+                            resultText.textContent = `${data.prediksi_sementara} (${persen}%)`;
+                        } else {
+                            resultText.textContent = "Menunggu gerakan tangan...";
+                        }
+
+                        const statusTangan = data.ada_tangan ? `Ya (${persen}%)` : "Tidak ada";
+                        resultMeta.textContent = `Mode: ${data.mode_aktif} | Tangan terdeteksi: ${statusTangan}`;
+                    })
+                    .catch(() => {});
+            }, 250);
+        });
+
+        btnStop.addEventListener("click", () => {
+            kirimKontrol("stop");
+            if (statusInterval) clearInterval(statusInterval);
+            camStream.src = "";
+            camStream.style.display = "none";
+            screenMsg.style.display = "flex";
+            msgTitle.textContent = "Kamera dihentikan";
+            msgText.textContent = 'Tekan tombol "Mulai Kamera" untuk memulai kembali.';
+            liveTag.hidden = true;
+            btnStart.disabled = false;
+            btnStop.disabled = true;
+            resultText.textContent = "Menunggu gerakan tangan...";
+            meterBar.style.width = "0%";
+        });
+
+        btnMode.addEventListener("click", () => kirimKontrol("mode"));
+        btnFlip.addEventListener("click", () => kirimKontrol("flip"));
+        btnWarna.addEventListener("click", () => kirimKontrol("warna"));
+
+        btnClear.addEventListener("click", () => {
+            kirimKontrol("reset");
+            lastHistoryItem = "";
+            historyList.innerHTML = '<li class="empty">Belum ada terjemahan.</li>';
+            resultText.textContent = "Menunggu gerakan tangan...";
+        });
+
+        document.addEventListener("keydown", (e) => {
+            const key = e.key.toLowerCase();
+            if (key === "m") kirimKontrol("mode");
+            else if (key === "f") kirimKontrol("flip");
+            else if (key === "w") kirimKontrol("warna");
+            else if (key === "c") btnClear.click();
+        });
+    </script>
 </body>
 </html>
