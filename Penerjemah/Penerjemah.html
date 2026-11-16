@@ -72,11 +72,6 @@
                     </div>
                     <ul id="historyList"><li class="empty">Belum ada terjemahan.</li></ul>
                 </div>
-
-                <p class="note">
-                    Terhubung ke Model AI Python (<strong>CNN Abjad &amp; LSTM Kalimat</strong>).
-                    Pintasan keyboard: <code>[M]</code> Mode, <code>[F]</code> Balik, <code>[W]</code> Warna, <code>[C]</code> Reset.
-                </p>
             </aside>
         </div>
     </main>
@@ -145,10 +140,6 @@
                 liveTag.hidden = false;
                 btnStart.disabled = true;
                 btnStop.disabled = false;
-            };
-            camStream.onerror = () => {
-                msgTitle.textContent = "Gagal Terhubung ke Server AI";
-                msgText.textContent = "Jalankan file app.py di Terminal VS Code terlebih dahulu.";
             };
 
             if (statusInterval) clearInterval(statusInterval);

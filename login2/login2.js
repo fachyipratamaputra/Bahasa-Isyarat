@@ -12,7 +12,7 @@ const submitBtn  = form.querySelector('.btn-submit');
 
 const API_URL     = (['localhost','127.0.0.1',''].includes(location.hostname))
     ? 'http://localhost:3000/api'                       // saat dites di laptop
-    : 'https://GANTI-NAMA-BACKEND-KAMU.onrender.com/api'; // alamat backend online
+    : 'https://signbridge-apivercelapp.vercel.app/api'; // alamat backend online
 const REDIRECT_TO = '../Login/Login.html'; // halaman tujuan setelah berhasil daftar
 
 function showMessage(text, ok) {
