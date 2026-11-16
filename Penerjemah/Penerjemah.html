@@ -131,7 +131,6 @@
 
         btnStart.addEventListener("click", () => {
             msgTitle.textContent = "Menghubungkan Kamera AI...";
-            msgText.textContent = "Pastikan app.py sudah dijalankan di VS Code.";
 
             camStream.src = `${SERVER_URL}/video_feed?t=${new Date().getTime()}`;
             camStream.onload = () => {
